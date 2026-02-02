@@ -46,7 +46,10 @@ Page({
   onCaseTap(e) {
     const { id } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/pages/caseDetail/caseDetail?id=${id}`
+      url: `/pages/caseDetail/caseDetail?id=${id}`,
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 

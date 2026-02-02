@@ -128,7 +128,10 @@ Page({
   onGuideTap(e) {
     const { id } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/pages/guideDetail/guideDetail?id=${id}`
+      url: `/pages/guideDetail/guideDetail?id=${id}`,
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 

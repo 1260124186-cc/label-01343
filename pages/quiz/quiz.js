@@ -137,25 +137,13 @@ Page({
 
   // 登录
   onLogin() {
-    // 模拟登录（实际项目中应该调用微信登录接口）
-    wx.showModal({
-      title: '登录',
-      content: '是否使用微信快捷登录？',
-      confirmText: '登录',
-      success: (res) => {
-        if (res.confirm) {
-          // 模拟登录成功
-          wx.setStorageSync('isLoggedIn', true)
-          wx.setStorageSync('userInfo', {
-            nickName: '校园用户',
-            avatarUrl: '/images/icons/avatar-default.png'
-          })
-          this.setData({ isLoggedIn: true })
-          wx.showToast({
-            title: '登录成功',
-            icon: 'success'
-          })
-        }
+    wx.navigateTo({
+      url: '/pages/login/login',
+      fail: () => {
+        wx.showToast({
+          title: '跳转失败',
+          icon: 'none'
+        })
       }
     })
   },
@@ -309,7 +297,10 @@ Page({
   // 返回首页
   onGoHome() {
     wx.switchTab({
-      url: '/pages/index/index'
+      url: '/pages/index/index',
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 

@@ -95,11 +95,17 @@ Page({
     const { linktype, linkid } = e.currentTarget.dataset
     if (linktype === 'case') {
       wx.navigateTo({
-        url: `/pages/caseDetail/caseDetail?id=${linkid}`
+        url: `/pages/caseDetail/caseDetail?id=${linkid}`,
+        fail: () => {
+          wx.showToast({ title: '页面跳转失败', icon: 'none' })
+        }
       })
     } else if (linktype === 'guide') {
       wx.navigateTo({
-        url: `/pages/guideDetail/guideDetail?id=${linkid}`
+        url: `/pages/guideDetail/guideDetail?id=${linkid}`,
+        fail: () => {
+          wx.showToast({ title: '页面跳转失败', icon: 'none' })
+        }
       })
     }
   },
@@ -113,10 +119,14 @@ Page({
     
     // 延迟一帧再跳转，确保遮罩已渲染
     setTimeout(() => {
+      const failCallback = () => {
+        this.setData({ showPageMask: false })
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
       if (istab) {
-        wx.switchTab({ url })
+        wx.switchTab({ url, fail: failCallback })
       } else {
-        wx.navigateTo({ url })
+        wx.navigateTo({ url, fail: failCallback })
       }
     }, 50)
   },
@@ -146,7 +156,10 @@ Page({
 
     // 跳转到防骗指南页面并传递搜索关键词
     wx.navigateTo({
-      url: `/pages/guide/guide?keyword=${encodeURIComponent(searchKeyword)}`
+      url: `/pages/guide/guide?keyword=${encodeURIComponent(searchKeyword)}`,
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 
@@ -185,7 +198,10 @@ Page({
   onCaseTap(e) {
     const { id } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/pages/caseDetail/caseDetail?id=${id}`
+      url: `/pages/caseDetail/caseDetail?id=${id}`,
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 
@@ -193,21 +209,30 @@ Page({
   onGuideTap(e) {
     const { id } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/pages/guideDetail/guideDetail?id=${id}`
+      url: `/pages/guideDetail/guideDetail?id=${id}`,
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 
   // 查看更多案例
   onMoreCases() {
     wx.switchTab({
-      url: '/pages/cases/cases'
+      url: '/pages/cases/cases',
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 
   // 查看更多指南
   onMoreGuides() {
     wx.navigateTo({
-      url: '/pages/guide/guide'
+      url: '/pages/guide/guide',
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 
@@ -221,7 +246,10 @@ Page({
       success: (res) => {
         if (res.confirm) {
           wx.makePhoneCall({
-            phoneNumber: '110'
+            phoneNumber: '110',
+            fail: () => {
+              wx.showToast({ title: '拨号失败，请手动拨打110', icon: 'none' })
+            }
           })
         }
       }

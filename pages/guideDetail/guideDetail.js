@@ -69,7 +69,10 @@ Page({
       success: (res) => {
         if (res.confirm) {
           wx.makePhoneCall({
-            phoneNumber: '110'
+            phoneNumber: '110',
+            fail: () => {
+              wx.showToast({ title: '拨号失败，请手动拨打110', icon: 'none' })
+            }
           })
         }
       }
@@ -86,7 +89,10 @@ Page({
       success: (res) => {
         if (res.confirm) {
           wx.makePhoneCall({
-            phoneNumber: '96110'
+            phoneNumber: '96110',
+            fail: () => {
+              wx.showToast({ title: '拨号失败，请手动拨打96110', icon: 'none' })
+            }
           })
         }
       }

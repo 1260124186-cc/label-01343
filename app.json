@@ -6,7 +6,8 @@
     "pages/guide/guide",
     "pages/guideDetail/guideDetail",
     "pages/quiz/quiz",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",

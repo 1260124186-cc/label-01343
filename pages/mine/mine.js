@@ -149,7 +149,10 @@ Page({
       longitude: 116.397470,
       name: '校园保卫处',
       address: '学校行政楼一楼',
-      scale: 18
+      scale: 18,
+      fail: () => {
+        wx.showToast({ title: '打开地图失败', icon: 'none' })
+      }
     })
   },
 
@@ -209,7 +212,10 @@ Page({
       longitude: 116.397470,
       name: '校园保卫处',
       address: '学校行政楼一楼',
-      scale: 18
+      scale: 18,
+      fail: () => {
+        wx.showToast({ title: '打开地图失败', icon: 'none' })
+      }
     })
   },
 
@@ -236,14 +242,20 @@ Page({
   // 查看防骗指南
   onViewGuide() {
     wx.navigateTo({
-      url: '/pages/guide/guide'
+      url: '/pages/guide/guide',
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 
   // 开始测试
   onStartQuiz() {
     wx.switchTab({
-      url: '/pages/quiz/quiz'
+      url: '/pages/quiz/quiz',
+      fail: () => {
+        wx.showToast({ title: '页面跳转失败', icon: 'none' })
+      }
     })
   },
 
@@ -310,24 +322,13 @@ Page({
 
   // 登录
   onLogin() {
-    wx.showModal({
-      title: '登录',
-      content: '是否使用微信快捷登录？',
-      confirmText: '登录',
-      success: (res) => {
-        if (res.confirm) {
-          // 模拟登录成功
-          wx.setStorageSync('isLoggedIn', true)
-          wx.setStorageSync('userInfo', {
-            nickName: '校园用户',
-            avatarUrl: ''
-          })
-          this.setData({ isLoggedIn: true })
-          wx.showToast({
-            title: '登录成功',
-            icon: 'success'
-          })
-        }
+    wx.navigateTo({
+      url: '/pages/login/login',
+      fail: () => {
+        wx.showToast({
+          title: '跳转失败',
+          icon: 'none'
+        })
       }
     })
   },
