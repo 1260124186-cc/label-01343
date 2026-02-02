@@ -1,0 +1,87 @@
+<!--pages/guide/guide.wxml-->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索诈骗类型，如 刷单、校园贷"
+        placeholder-class="placeholder"
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearch"
+      />
+      <text
+        class="clear-icon"
+        wx:if="{{searchKeyword}}"
+        bindtap="onClearSearch"
+      >✕</text>
+    </view>
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+
+  <!-- 搜索结果提示 -->
+  <view class="search-result-tip" wx:if="{{showSearchResult}}">
+    <text>搜索"{{searchKeyword}}"，找到{{guideList.length}}条结果</text>
+    <text class="clear-text" bindtap="onClearSearch">清除搜索</text>
+  </view>
+
+  <!-- 分类标签 -->
+  <scroll-view class="category-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}" wx:if="{{!showSearchResult}}">
+    <view class="category-list">
+      <view
+        class="category-item {{currentCategory === item.id ? 'active' : ''}}"
+        wx:for="{{categories}}"
+        wx:key="id"
+        bindtap="onCategoryTap"
+        data-id="{{item.id}}"
+      >
+        {{item.name}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 指南列表 -->
+  <view class="guide-list">
+    <view
+      class="guide-card"
+      wx:for="{{guideList}}"
+      wx:key="id"
+      bindtap="onGuideTap"
+      data-id="{{item.id}}"
+    >
+      <view class="guide-icon-wrap {{item.category}}">
+        <text class="guide-icon">{{item.emoji}}</text>
+      </view>
+      <view class="guide-content">
+        <view class="guide-header">
+          <view class="guide-tag">{{item.categoryName}}</view>
+        </view>
+        <view class="guide-title">{{item.title}}</view>
+        <view class="guide-summary">{{item.summary}}</view>
+        <view class="guide-meta">
+          <text class="guide-read">{{item.readCount}}人已读</text>
+          <text class="guide-update">更新于 {{item.updateTime}}</text>
+        </view>
+        <!-- 关键词标签 -->
+        <view class="guide-keywords">
+          <text class="keyword-tag" wx:for="{{item.keywords}}" wx:for-item="kw" wx:key="*this">{{kw}}</text>
+        </view>
+      </view>
+      <text class="guide-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="bottom-tip" wx:if="{{guideList.length > 0}}">
+    <text>— 已展示全部指南 —</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{guideList.length === 0}}">
+    <text class="empty-icon">📭</text>
+    <text wx:if="{{showSearchResult}}">未找到相关指南，换个关键词试试</text>
+    <text wx:else>该分类暂无指南</text>
+  </view>
+</view>

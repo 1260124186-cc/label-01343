@@ -1,0 +1,96 @@
+<!--pages/caseDetail/caseDetail.wxml-->
+<view class="container" wx:if="{{caseInfo}}">
+  <!-- 头部图片 -->
+  <view class="header-image">
+    <image src="{{caseInfo.imageUrl}}" mode="aspectFill"></image>
+    <view class="danger-badge {{caseInfo.dangerLevel}}">
+      {{caseInfo.dangerLevel === 'high' ? '高危诈骗' : '中危诈骗'}}
+    </view>
+  </view>
+
+  <!-- 标题区域 -->
+  <view class="title-section">
+    <view class="case-tag">{{caseInfo.categoryName}}</view>
+    <view class="case-title">{{caseInfo.title}}</view>
+    <view class="case-meta">
+      <text class="meta-item">{{caseInfo.reportCount}}人举报</text>
+      <text class="meta-divider">|</text>
+      <text class="meta-item">{{caseInfo.createTime}}</text>
+    </view>
+  </view>
+
+  <!-- 案例摘要 -->
+  <view class="summary-section">
+    <view class="section-title">
+      <view class="title-icon"></view>
+      <text>案例摘要</text>
+    </view>
+    <view class="summary-content">{{caseInfo.summary}}</view>
+  </view>
+
+  <!-- 视频区域（如果有） -->
+  <view class="video-section" wx:if="{{caseInfo.videoUrl}}">
+    <view class="section-title">
+      <view class="title-icon video"></view>
+      <text>案例视频</text>
+    </view>
+    <video
+      class="case-video"
+      src="{{caseInfo.videoUrl}}"
+      poster="{{caseInfo.imageUrl}}"
+      controls="{{true}}"
+      show-center-play-btn="{{true}}"
+      bindplay="onVideoPlay"
+      bindpause="onVideoPause"
+    ></video>
+  </view>
+
+  <!-- 详细内容 -->
+  <view class="content-section">
+    <view class="section-title">
+      <view class="title-icon"></view>
+      <text>详细内容</text>
+    </view>
+    <view class="content-text">{{caseInfo.content}}</view>
+  </view>
+
+  <!-- 防范要点 -->
+  <view class="tips-section">
+    <view class="section-title warning">
+      <view class="title-icon warning"></view>
+      <text>防范要点</text>
+    </view>
+    <view class="tips-list">
+      <view class="tip-item" wx:for="{{caseInfo.tips}}" wx:key="*this">
+        <view class="tip-icon">!</view>
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 求助通道 -->
+  <view class="help-section">
+    <view class="section-title">
+      <view class="title-icon help"></view>
+      <text>遇到类似情况？</text>
+    </view>
+    <view class="help-buttons">
+      <view class="help-btn police" bindtap="onCallPolice">
+        <text class="btn-icon">📞</text>
+        <text class="btn-text">报警电话 110</text>
+      </view>
+      <view class="help-btn antifraud" bindtap="onCallAntifraud">
+        <text class="btn-icon">📞</text>
+        <text class="btn-text">反诈热线 96110</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部分享提示 -->
+  <view class="share-tip">
+    <button class="share-btn" open-type="share">
+      <text class="share-icon">🔗</text>
+      <text>分享给同学</text>
+    </button>
+  </view>
+</view>

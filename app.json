@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/cases/cases",
+    "pages/caseDetail/caseDetail",
+    "pages/guide/guide",
+    "pages/guideDetail/guideDetail",
+    "pages/quiz/quiz",
+    "pages/mine/mine"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#e74c3c",
+    "navigationBarTitleText": "校园反诈卫士",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f6fa"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#e74c3c",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tabbar/home.png",
+        "selectedIconPath": "images/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/cases/cases",
+        "text": "案例库",
+        "iconPath": "images/tabbar/case.png",
+        "selectedIconPath": "images/tabbar/case-active.png"
+      },
+      {
+        "pagePath": "pages/quiz/quiz",
+        "text": "测试",
+        "iconPath": "images/tabbar/quiz.png",
+        "selectedIconPath": "images/tabbar/quiz-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tabbar/mine.png",
+        "selectedIconPath": "images/tabbar/mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,164 @@
+<!--pages/quiz/quiz.wxml-->
+<view class="container">
+  <!-- 开始界面 -->
+  <view class="start-page" wx:if="{{quizStatus === 'start'}}">
+    <view class="start-header">
+      <view class="start-icon">📝</view>
+      <view class="start-title">反诈知识测试</view>
+      <view class="start-subtitle">测测你的防骗能力，看看能得多少分？</view>
+    </view>
+
+    <view class="category-section">
+      <view class="section-title">选择测试类型</view>
+      <view class="category-grid">
+        <view
+          class="category-card {{currentCategory === item.id ? 'active' : ''}}"
+          wx:for="{{categories}}"
+          wx:key="id"
+          bindtap="onCategoryTap"
+          data-id="{{item.id}}"
+        >
+          <view class="category-name">{{item.name}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="start-tips">
+      <view class="tip-item">
+        <view class="tip-icon">📝</view>
+        <text>共10道题，包含单选、多选、判断</text>
+      </view>
+      <view class="tip-item">
+        <view class="tip-icon">⏱️</view>
+        <text>不限时间，答完即可查看结果</text>
+      </view>
+      <view class="tip-item">
+        <view class="tip-icon">💡</view>
+        <text>每道题答完显示正确答案和解析</text>
+      </view>
+    </view>
+
+    <view class="start-btn" bindtap="onStartQuiz">
+      开始测试
+    </view>
+  </view>
+
+  <!-- 测试界面 -->
+  <view class="quiz-page" wx:if="{{quizStatus === 'testing'}}">
+    <!-- 进度条 -->
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{(currentIndex + 1) / questions.length * 100}}%"></view>
+    </view>
+    <view class="progress-text">
+      <text class="current">{{currentIndex + 1}}</text>
+      <text class="total"> / {{questions.length}}</text>
+    </view>
+
+    <!-- 题目卡片 -->
+    <view class="question-card">
+      <!-- 题目类型标签 -->
+      <view class="question-type">
+        <view wx:if="{{currentQuestion.type === 'single'}}" class="type-tag single">单选题</view>
+        <view wx:elif="{{currentQuestion.type === 'multiple'}}" class="type-tag multiple">多选题</view>
+        <view wx:elif="{{currentQuestion.type === 'judge'}}" class="type-tag judge">判断题</view>
+        <view class="difficulty {{currentQuestion.difficulty}}">{{currentQuestion.difficulty === 'easy' ? '简单' : currentQuestion.difficulty === 'medium' ? '中等' : '困难'}}</view>
+      </view>
+
+      <!-- 题目内容 -->
+      <view class="question-text">{{currentQuestion.question}}</view>
+
+      <!-- 选项列表 -->
+      <view class="options-list">
+        <view
+          class="option-item {{selectedMap[item.id] ? 'selected' : ''}} {{hasSubmitted ? (answerMap[item.id] ? 'correct' : (selectedMap[item.id] ? 'wrong' : '')) : ''}}"
+          wx:for="{{currentQuestion.options}}"
+          wx:key="id"
+          bindtap="onOptionTap"
+          data-id="{{item.id}}"
+        >
+          <view class="option-letter">{{item.id}}</view>
+          <view class="option-text">{{item.text}}</view>
+          <view class="option-status" wx:if="{{hasSubmitted}}">
+            <text wx:if="{{answerMap[item.id]}}" class="status-icon correct">✓</text>
+            <text wx:elif="{{selectedMap[item.id]}}" class="status-icon wrong">✗</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 答案解析 -->
+      <view class="analysis-section" wx:if="{{hasSubmitted}}">
+        <view class="analysis-header {{isCorrect ? 'correct' : 'wrong'}}">
+          <text wx:if="{{isCorrect}}">✓ 回答正确！</text>
+          <text wx:else>✗ 回答错误</text>
+        </view>
+        <view class="analysis-content">
+          <view class="correct-answer">正确答案：{{currentQuestion.answer}}</view>
+          <view class="analysis-text">{{currentQuestion.analysis}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <view class="submit-btn" wx:if="{{!hasSubmitted}}" bindtap="onSubmitAnswer">
+        确认答案
+      </view>
+      <view class="next-btn" wx:else bindtap="onNextQuestion">
+        {{currentIndex < questions.length - 1 ? '下一题' : '查看结果'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 结果界面 -->
+  <view class="result-page" wx:if="{{quizStatus === 'result'}}">
+    <view class="result-header">
+      <view class="score-circle {{totalScore >= 80 ? 'excellent' : totalScore >= 60 ? 'good' : 'bad'}}">
+        <view class="score-number">{{totalScore}}</view>
+        <view class="score-label">分</view>
+      </view>
+      <view class="result-text">
+        <text wx:if="{{totalScore >= 80}}">太棒了！你是反诈达人！</text>
+        <text wx:elif="{{totalScore >= 60}}">不错哦，再接再厉！</text>
+        <text wx:else>要加强学习防骗知识哦</text>
+      </view>
+      <view class="result-stats">
+        <view class="stat-item">
+          <view class="stat-value">{{questions.length}}</view>
+          <view class="stat-label">总题数</view>
+        </view>
+        <view class="stat-item correct">
+          <view class="stat-value">{{correctCount}}</view>
+          <view class="stat-label">答对</view>
+        </view>
+        <view class="stat-item wrong">
+          <view class="stat-value">{{questions.length - correctCount}}</view>
+          <view class="stat-label">答错</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 错题回顾 -->
+    <view class="wrong-section" wx:if="{{wrongQuestions.length > 0}}">
+      <view class="section-title">错题回顾</view>
+      <view class="wrong-list">
+        <view class="wrong-item" wx:for="{{wrongQuestions}}" wx:key="id">
+          <view class="wrong-question">{{index + 1}}. {{item.question}}</view>
+          <view class="wrong-answer">
+            <text class="your-answer">你的答案：{{item.userAnswer || '未作答'}}</text>
+            <text class="right-answer">正确答案：{{item.answer}}</text>
+          </view>
+          <view class="wrong-analysis">{{item.analysis}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="result-buttons">
+      <view class="restart-btn" bindtap="onRestartQuiz">再测一次</view>
+      <button class="share-btn" open-type="share">
+        <text class="share-icon">🔗</text>
+        <text>分享成绩</text>
+      </button>
+    </view>
+  </view>
+</view>

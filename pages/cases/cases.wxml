@@ -1,0 +1,72 @@
+<!--pages/cases/cases.wxml-->
+<view class="container">
+  <!-- 顶部提示 -->
+  <view class="top-tip">
+    <text>⚠️ 以下案例均为真实发生，请引以为戒</text>
+  </view>
+
+  <!-- 分类标签 -->
+  <scroll-view class="category-scroll" scroll-x="{{true}}" enhanced="{{true}}" show-scrollbar="{{false}}">
+    <view class="category-list">
+      <view
+        class="category-item {{currentCategory === item.id ? 'active' : ''}}"
+        wx:for="{{categories}}"
+        wx:key="id"
+        bindtap="onCategoryTap"
+        data-id="{{item.id}}"
+      >
+        {{item.name}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 案例列表 -->
+  <view class="case-list">
+    <view
+      class="case-card"
+      wx:for="{{caseList}}"
+      wx:key="id"
+      bindtap="onCaseTap"
+      data-id="{{item.id}}"
+    >
+      <view class="case-image-wrap">
+        <image class="case-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+        <view class="danger-badge {{item.dangerLevel}}">
+          {{item.dangerLevel === 'high' ? '高危' : '中危'}}
+        </view>
+      </view>
+      <view class="case-info">
+        <view class="case-header">
+          <view class="case-tag">{{item.categoryName}}</view>
+          <text class="case-count">{{item.reportCount}}人举报</text>
+        </view>
+        <view class="case-title">{{item.title}}</view>
+        <view class="case-summary">{{item.summary}}</view>
+        <view class="case-tips">
+          <view class="tip-item" wx:for="{{item.tips}}" wx:for-item="tip" wx:key="*this">
+            <text class="tip-dot">•</text>
+            <text>{{tip}}</text>
+          </view>
+        </view>
+        <view class="case-footer">
+          <text class="case-date">{{item.createTime}}</text>
+          <view class="view-detail">
+            <text>查看详情</text>
+            <text class="arrow-icon">›</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部提示 -->
+  <view class="bottom-tip" wx:if="{{caseList.length > 0}}">
+    <text>— 已展示全部案例 —</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{caseList.length === 0}}">
+    <text class="empty-icon">📭</text>
+    <text>该分类暂无案例</text>
+  </view>
+</view>

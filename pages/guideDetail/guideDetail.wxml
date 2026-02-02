@@ -1,0 +1,96 @@
+<!--pages/guideDetail/guideDetail.wxml-->
+<view class="container" wx:if="{{guideInfo}}">
+  <!-- 头部信息 -->
+  <view class="header-section">
+    <view class="guide-tag">{{guideInfo.categoryName}}</view>
+    <view class="guide-title">{{guideInfo.title}}</view>
+    <view class="guide-summary">{{guideInfo.summary}}</view>
+    <view class="guide-meta">
+      <text class="meta-item">{{guideInfo.readCount}}人已读</text>
+      <text class="meta-divider">|</text>
+      <text class="meta-item">更新于 {{guideInfo.updateTime}}</text>
+    </view>
+  </view>
+
+  <!-- 内容区域 -->
+  <view class="content-section">
+    <view
+      wx:for="{{guideInfo.formattedContent}}"
+      wx:key="index"
+      class="content-line {{item.type}}"
+    >
+      <!-- 二级标题 -->
+      <view wx:if="{{item.type === 'h2'}}" class="h2-title">
+        <view class="title-bar"></view>
+        <text>{{item.text}}</text>
+      </view>
+
+      <!-- 三级标题 -->
+      <view wx:elif="{{item.type === 'h3'}}" class="h3-title">
+        {{item.text}}
+      </view>
+
+      <!-- 对勾列表 -->
+      <view wx:elif="{{item.type === 'check'}}" class="check-item">
+        <view class="check-icon">✓</view>
+        <text>{{item.text}}</text>
+      </view>
+
+      <!-- 警告提示 -->
+      <view wx:elif="{{item.type === 'warning'}}" class="warning-item">
+        <view class="warning-icon">⚠️</view>
+        <text>{{item.text}}</text>
+      </view>
+
+      <!-- 列表项 -->
+      <view wx:elif="{{item.type === 'list'}}" class="list-item">
+        <view class="list-dot"></view>
+        <text>{{item.text}}</text>
+      </view>
+
+      <!-- 数字列表 -->
+      <view wx:elif="{{item.type === 'number'}}" class="number-item">
+        <text>{{item.text}}</text>
+      </view>
+
+      <!-- 空行 -->
+      <view wx:elif="{{item.type === 'empty'}}" class="empty-line"></view>
+
+      <!-- 普通文本 -->
+      <view wx:else class="text-item">
+        {{item.text}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 关键词标签 -->
+  <view class="keywords-section">
+    <view class="section-label">相关关键词</view>
+    <view class="keywords-list">
+      <text class="keyword-tag" wx:for="{{guideInfo.keywords}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 求助通道 -->
+  <view class="help-section">
+    <view class="section-label">需要帮助？</view>
+    <view class="help-buttons">
+      <view class="help-btn police" bindtap="onCallPolice">
+        <text class="btn-icon">📞</text>
+        <text class="btn-text">报警电话 110</text>
+      </view>
+      <view class="help-btn antifraud" bindtap="onCallAntifraud">
+        <text class="btn-icon">📞</text>
+        <text class="btn-text">反诈热线 96110</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分享按钮 -->
+  <view class="share-section">
+    <button class="share-btn" open-type="share">
+      <text class="share-icon">🔗</text>
+      <text>分享给同学</text>
+    </button>
+  </view>
+</view>

@@ -1,0 +1,314 @@
+/* pages/guide/guide.wxss */
+.container {
+  padding: 24rpx;
+  padding-bottom: 40rpx;
+  background: linear-gradient(180deg, #e8f4fd 0%, #f5f6fa 25%);
+  min-height: 100vh;
+}
+
+/* 搜索栏 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 44rpx;
+  padding: 18rpx 28rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.06);
+  border: 2rpx solid transparent;
+  transition: all 0.3s;
+}
+
+.search-input-wrap:focus-within {
+  border-color: #3498db;
+  box-shadow: 0 4rpx 20rpx rgba(52, 152, 219, 0.15);
+}
+
+.search-icon {
+  font-size: 36rpx;
+  margin-right: 16rpx;
+  opacity: 0.6;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+.placeholder {
+  color: #bbb;
+}
+
+.clear-icon {
+  font-size: 32rpx;
+  opacity: 0.5;
+  padding: 8rpx;
+  color: #999;
+  transition: opacity 0.2s;
+}
+
+.clear-icon:active {
+  opacity: 0.7;
+}
+
+.search-btn {
+  margin-left: 20rpx;
+  padding: 18rpx 36rpx;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: #ffffff;
+  border-radius: 44rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  box-shadow: 0 6rpx 20rpx rgba(52, 152, 219, 0.3);
+  transition: all 0.3s;
+}
+
+.search-btn:active {
+  transform: scale(0.96);
+}
+
+/* 搜索结果提示 */
+.search-result-tip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 24rpx;
+  background: linear-gradient(135deg, #e8f4fd 0%, #d1e9f9 100%);
+  border-radius: 16rpx;
+  margin-bottom: 24rpx;
+  font-size: 26rpx;
+  color: #2980b9;
+  border-left: 8rpx solid #3498db;
+}
+
+.clear-text {
+  color: #e74c3c;
+  font-weight: 600;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  transition: background 0.2s;
+}
+
+.clear-text:active {
+  background: rgba(231, 76, 60, 0.1);
+}
+
+/* 分类滚动 */
+.category-scroll {
+  margin-bottom: 24rpx;
+  white-space: nowrap;
+}
+
+.category-list {
+  display: inline-flex;
+  padding: 8rpx 0;
+  gap: 16rpx;
+}
+
+.category-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 36rpx;
+  background: #ffffff;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+  color: #666;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  border: 2rpx solid transparent;
+}
+
+.category-item.active {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 6rpx 20rpx rgba(52, 152, 219, 0.3);
+}
+
+.category-item:not(.active):active {
+  background: #f8f8f8;
+  transform: scale(0.96);
+}
+
+/* 指南列表 */
+.guide-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.guide-card {
+  display: flex;
+  align-items: flex-start;
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 24rpx rgba(0, 0, 0, 0.06);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.guide-icon-wrap {
+  width: 108rpx;
+  height: 108rpx;
+  border-radius: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.guide-icon-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 28rpx;
+  background: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 100%);
+}
+
+.guide-icon-wrap.shuadan {
+  background: linear-gradient(135deg, #fde8e8 0%, #fcd5d5 100%);
+}
+
+.guide-icon-wrap.loan {
+  background: linear-gradient(135deg, #fef3e2 0%, #fde4c1 100%);
+}
+
+.guide-icon-wrap.impersonate {
+  background: linear-gradient(135deg, #e8f4fd 0%, #d1e9f9 100%);
+}
+
+.guide-icon-wrap.game {
+  background: linear-gradient(135deg, #f3e8fd 0%, #e5d1f9 100%);
+}
+
+.guide-icon-wrap.refund {
+  background: linear-gradient(135deg, #e8fdf3 0%, #d1f9e5 100%);
+}
+
+.guide-icon-wrap.help {
+  background: linear-gradient(135deg, #e8f4fd 0%, #d1e9f9 100%);
+}
+
+.guide-icon {
+  font-size: 48rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.guide-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.guide-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14rpx;
+}
+
+.guide-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 16rpx;
+  background: linear-gradient(135deg, #e8f4fd 0%, #d1e9f9 100%);
+  color: #2980b9;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.guide-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10rpx;
+  line-height: 1.4;
+}
+
+.guide-summary {
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 14rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.6;
+}
+
+.guide-meta {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 14rpx;
+}
+
+.guide-read {
+  margin-right: 28rpx;
+}
+
+.guide-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.keyword-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6rpx 16rpx;
+  background: #f5f6fa;
+  color: #888;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+}
+
+.guide-arrow {
+  font-size: 36rpx;
+  color: #ccc;
+  font-weight: bold;
+  margin-left: 16rpx;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* 底部提示 */
+.bottom-tip {
+  text-align: center;
+  padding: 48rpx 0;
+  color: #ccc;
+  font-size: 26rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 40rpx;
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+}
+
+.empty-state text {
+  font-size: 30rpx;
+  color: #999;
+}

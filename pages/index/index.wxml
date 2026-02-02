@@ -1,0 +1,193 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <view class="search-input-wrap">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索诈骗类型、防范技巧..."
+        placeholder-class="placeholder"
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearch"
+      />
+    </view>
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+
+  <!-- 预警关键词提示 -->
+  <view class="warning-keywords">
+    <text class="warning-label">⚠️ 预警词：</text>
+    <text class="keyword" wx:for="{{warningKeywords}}" wx:key="*this">{{item}}</text>
+  </view>
+
+  <!-- 轮播图 -->
+  <swiper
+    class="banner-swiper"
+    indicator-dots="{{true}}"
+    indicator-color="rgba(255,255,255,0.5)"
+    indicator-active-color="#ffffff"
+    autoplay="{{true}}"
+    interval="{{4000}}"
+    duration="{{500}}"
+    circular="{{true}}"
+  >
+    <swiper-item
+      wx:for="{{bannerList}}"
+      wx:key="id"
+      bindtap="onBannerTap"
+      data-linktype="{{item.linkType}}"
+      data-linkid="{{item.linkId}}"
+    >
+      <view class="banner-item">
+        <image class="banner-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+        <view class="banner-title">{{item.title}}</view>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 快速入口 -->
+  <view class="quick-entry">
+    <view
+      class="entry-item"
+      wx:for="{{quickEntries}}"
+      wx:key="id"
+      bindtap="onEntryTap"
+      data-url="{{item.url}}"
+      data-istab="{{item.isTab}}"
+    >
+      <view class="entry-icon-wrap">
+        <text class="entry-icon">{{item.emoji}}</text>
+      </view>
+      <text class="entry-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 紧急求助按钮 -->
+  <view class="emergency-btn" bindtap="onCallPolice">
+    <text class="emergency-icon">📞</text>
+    <text>遇到诈骗？立即报警</text>
+  </view>
+
+  <!-- 热门案例 -->
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">
+        <view class="title-icon hot"></view>
+        <text>热门案例</text>
+      </view>
+      <view class="section-more" bindtap="onMoreCases">
+        <text>更多</text>
+        <text class="more-arrow">›</text>
+      </view>
+    </view>
+    <view class="case-list">
+      <view
+        class="case-card"
+        wx:for="{{hotCases}}"
+        wx:key="id"
+        bindtap="onCaseTap"
+        data-id="{{item.id}}"
+      >
+        <view class="case-header">
+          <view class="case-tag {{item.dangerLevel === 'high' ? 'tag-danger' : 'tag-warning'}}">
+            {{item.categoryName}}
+          </view>
+          <text class="case-count">{{item.reportCount}}人举报</text>
+        </view>
+        <view class="case-title">{{item.title}}</view>
+        <view class="case-summary">{{item.summary}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 防骗指南 -->
+  <view class="section">
+    <view class="section-header">
+      <view class="section-title">
+        <view class="title-icon guide"></view>
+        <text>防骗指南</text>
+      </view>
+      <view class="section-more" bindtap="onMoreGuides">
+        <text>更多</text>
+        <text class="more-arrow">›</text>
+      </view>
+    </view>
+    <view class="guide-list">
+      <view
+        class="guide-card"
+        wx:for="{{latestGuides}}"
+        wx:key="id"
+        bindtap="onGuideTap"
+        data-id="{{item.id}}"
+      >
+        <view class="guide-icon-wrap">
+          <text class="guide-icon">{{item.emoji}}</text>
+        </view>
+        <view class="guide-content">
+          <view class="guide-title">{{item.title}}</view>
+          <view class="guide-summary">{{item.summary}}</view>
+          <view class="guide-meta">
+            <text class="guide-read">{{item.readCount}}人已读</text>
+          </view>
+        </view>
+        <text class="guide-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部安全提示 -->
+  <view class="footer-tip">
+    <text class="tip-icon">🛡️</text>
+    <text>守护校园安全 远离网络诈骗</text>
+  </view>
+</view>
+
+<!-- 预警弹窗 -->
+<view class="modal-mask" wx:if="{{showWarningModal}}" bindtap="closeWarningModal">
+  <view class="modal-content warning-modal" catchtap="">
+    <view class="modal-header warning">
+      <text class="modal-icon">⚠️</text>
+      <text>风险预警</text>
+    </view>
+    <view class="modal-body">
+      <text class="warning-text">{{warningContent}}</text>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn confirm" bindtap="closeWarningModal">我已知晓</view>
+    </view>
+  </view>
+</view>
+
+<!-- 首次进入欢迎弹窗 -->
+<view class="modal-mask" wx:if="{{showWelcomeModal}}" bindtap="closeWelcomeModal">
+  <view class="modal-content welcome-modal" catchtap="">
+    <view class="modal-header">
+      <text class="modal-icon">🛡️</text>
+      <text>欢迎使用校园反诈卫士</text>
+    </view>
+    <view class="modal-body">
+      <view class="welcome-tips">
+        <view class="welcome-tip">
+          <text class="tip-num">1</text>
+          <text>不轻信：不轻信陌生来电和信息</text>
+        </view>
+        <view class="welcome-tip">
+          <text class="tip-num">2</text>
+          <text>不透露：不透露个人信息和验证码</text>
+        </view>
+        <view class="welcome-tip">
+          <text class="tip-num">3</text>
+          <text>不转账：不向陌生账户转账汇款</text>
+        </view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <view class="modal-btn confirm" bindtap="closeWelcomeModal">开始使用</view>
+    </view>
+  </view>
+</view>
+
+<!-- 页面跳转遮罩 -->
+<view class="page-mask" wx:if="{{showPageMask}}"></view>
