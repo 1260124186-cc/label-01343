@@ -27,13 +27,33 @@ Component({
     ]
   },
 
+  attached() {
+    // 组件挂载时，根据当前页面路径设置选中状态
+    const pages = getCurrentPages()
+    if (pages.length > 0) {
+      const currentPage = pages[pages.length - 1]
+      const route = '/' + currentPage.route
+      const index = this.data.list.findIndex(item => item.pagePath === route)
+      if (index !== -1 && index !== this.data.selected) {
+        this.setData({ selected: index })
+      }
+    }
+  },
+
   methods: {
     switchTab(e) {
       const data = e.currentTarget.dataset
       const url = data.path
+      const index = data.index
+      
+      // 先更新选中状态，再切换页面
+      this.setData({ selected: index })
       
       wx.switchTab({
-        url
+        url,
+        fail: (err) => {
+          console.error('[TabBar] 切换页面失败:', err)
+        }
       })
     }
   }
