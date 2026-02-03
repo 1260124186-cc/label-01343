@@ -24,7 +24,7 @@
 .tab-icon {
   font-size: 44rpx;
   line-height: 1;
-  margin-bottom: 4rpx;
+  margin-bottom: 12rpx;
 }
 
 .tab-text {

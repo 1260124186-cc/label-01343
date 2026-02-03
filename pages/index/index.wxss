@@ -80,6 +80,7 @@
   color: #b7791f;
   margin-right: 16rpx;
   font-weight: 600;
+  line-height: 48rpx;
 }
 
 .keyword {
@@ -89,9 +90,9 @@
   padding: 8rpx 20rpx;
   border-radius: 24rpx;
   margin-right: 12rpx;
-  margin-bottom: 8rpx;
   font-weight: 500;
   border: 1rpx solid rgba(231, 76, 60, 0.2);
+  line-height: 32rpx;
 }
 
 /* 轮播图 */
