@@ -54,9 +54,11 @@ Page({
   },
 
   onLoad() {
+    console.log('[Index] 首页加载')
     this.initData()
     // 检查是否首次进入
     if (app.globalData.showWarning) {
+      console.log('[Index] 首次进入，显示欢迎弹窗')
       this.setData({ showWelcomeModal: true })
       app.globalData.showWarning = false
     }
@@ -66,9 +68,17 @@ Page({
     // 每次显示页面时隐藏遮罩
     this.setData({ showPageMask: false })
     
-    // 更新自定义tabBar选中状态
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ selected: 0 })
+    // 更新自定义tabBar选中状态（延迟执行确保组件就绪）
+    this.updateTabBar(0)
+  },
+  
+  // 更新TabBar选中状态
+  updateTabBar(index) {
+    if (typeof this.getTabBar === 'function') {
+      const tabBar = this.getTabBar()
+      if (tabBar) {
+        tabBar.setData({ selected: index })
+      }
     }
   },
 
@@ -165,6 +175,7 @@ Page({
 
   // 显示预警弹窗
   showWarning(keyword) {
+    console.log('[Index] 触发预警关键词:', keyword)
     const warningMessages = {
       '刷单': '⚠️ 警惕刷单诈骗！\n\n所有"刷单返利"都是诈骗，刷单本身也是违法行为。骗子会先用小额返利取得你的信任，然后诱骗你加大投入。\n\n记住：天上不会掉馅饼！',
       '返利': '⚠️ 警惕返利诈骗！\n\n"先付款后返利"都是诈骗套路。不要相信任何承诺高额返利的兼职或活动。',
@@ -238,6 +249,7 @@ Page({
 
   // 一键报警
   onCallPolice() {
+    console.log('[Index] 用户点击一键报警')
     wx.showModal({
       title: '确认报警',
       content: '确定要拨打110报警电话吗？',
@@ -245,9 +257,11 @@ Page({
       confirmColor: '#e74c3c',
       success: (res) => {
         if (res.confirm) {
+          console.log('[Index] 用户确认拨打110')
           wx.makePhoneCall({
             phoneNumber: '110',
-            fail: () => {
+            fail: (err) => {
+              console.error('[Index] 拨号失败:', err)
               wx.showToast({ title: '拨号失败，请手动拨打110', icon: 'none' })
             }
           })

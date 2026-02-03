@@ -1,4 +1,31 @@
-// 诈骗案例数据
+/**
+ * 诈骗案例数据
+ * 
+ * 【部署说明】
+ * 案例内容中使用"某高校"等通用描述，便于不同学校使用。
+ * 如需定制为特定学校，可将案例中的：
+ * - "某高校" → 替换为实际学校名称
+ * - "小李"、"小王"等 → 可替换为其他化名
+ * 
+ * 【字段说明】
+ * - id: 案例唯一标识
+ * - title: 案例标题
+ * - category: 分类标识（用于筛选）
+ * - categoryName: 分类显示名称
+ * - dangerLevel: 危险等级（high/medium/low）
+ * - summary: 案例摘要（列表页显示）
+ * - content: 案例详情（Markdown格式）
+ * - imageUrl: 案例配图路径
+ * - videoUrl: 反诈宣传视频URL【预留字段】
+ *             当前为空字符串，如需添加视频：
+ *             1. 填入视频URL（支持网络视频或本地路径）
+ *             2. 案例详情页的 video 组件会自动显示
+ *             示例: videoUrl: 'https://example.com/antifraud-video.mp4'
+ * - tips: 防范要点数组
+ * - reportCount: 举报数量
+ * - createTime: 创建时间
+ */
+
 const casesData = [
   {
     id: 1,

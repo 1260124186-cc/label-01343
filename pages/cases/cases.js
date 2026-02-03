@@ -15,8 +15,16 @@ Page({
 
   onShow() {
     // 更新自定义tabBar选中状态
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ selected: 1 })
+    this.updateTabBar(1)
+  },
+  
+  // 更新TabBar选中状态
+  updateTabBar(index) {
+    if (typeof this.getTabBar === 'function') {
+      const tabBar = this.getTabBar()
+      if (tabBar) {
+        tabBar.setData({ selected: index })
+      }
     }
   },
 

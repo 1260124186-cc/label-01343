@@ -42,18 +42,33 @@ Page({
     this.checkLoginStatus()
     
     // 更新自定义tabBar选中状态
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({ selected: 2 })
+    this.updateTabBar(2)
+  },
+  
+  // 更新TabBar选中状态
+  updateTabBar(index) {
+    if (typeof this.getTabBar === 'function') {
+      const tabBar = this.getTabBar()
+      if (tabBar) {
+        tabBar.setData({ selected: index })
+      }
     }
   },
 
   // 检查登录状态
   checkLoginStatus() {
-    const isLoggedIn = wx.getStorageSync('isLoggedIn') || false
+    let isLoggedIn = false
+    try {
+      isLoggedIn = wx.getStorageSync('isLoggedIn') || false
+      console.log('[Quiz] 检查登录状态:', isLoggedIn ? '已登录' : '未登录')
+    } catch (e) {
+      console.error('[Quiz] 读取登录状态失败:', e)
+    }
     this.setData({ isLoggedIn })
     
     // 如果未登录且正在答题中，重置为开始页面
     if (!isLoggedIn && this.data.quizStatus !== 'start') {
+      console.log('[Quiz] 未登录状态，重置测试进度')
       this.setData({
         quizStatus: 'start',
         questions: [],
@@ -80,8 +95,11 @@ Page({
 
   // 开始测试
   onStartQuiz() {
+    console.log('[Quiz] 尝试开始测试，分类:', this.data.currentCategory)
+    
     // 检查登录状态
     if (!this.data.isLoggedIn) {
+      console.log('[Quiz] 未登录，提示用户登录')
       wx.showModal({
         title: '请先登录',
         content: '需要登录后才能进行知识测试，是否前往登录？',
@@ -108,12 +126,15 @@ Page({
     }
 
     if (questions.length === 0) {
+      console.warn('[Quiz] 该分类暂无题目:', currentCategory)
       wx.showToast({
         title: '该分类暂无题目',
         icon: 'none'
       })
       return
     }
+
+    console.log('[Quiz] 开始测试，题目数量:', questions.length)
 
     // 构建第一题的答案映射
     const firstQuestion = questions[0]
@@ -266,6 +287,8 @@ Page({
     })
 
     const totalScore = Math.round((correctCount / questions.length) * 100)
+    
+    console.log('[Quiz] 测试完成，得分:', totalScore, '正确:', correctCount, '/', questions.length)
 
     this.setData({
       quizStatus: 'result',
@@ -273,6 +296,21 @@ Page({
       correctCount,
       wrongQuestions
     })
+
+    // 保存测试记录
+    try {
+      const history = wx.getStorageSync('quizHistory') || []
+      history.unshift({
+        score: totalScore,
+        correctCount,
+        totalCount: questions.length,
+        time: new Date().toISOString()
+      })
+      wx.setStorageSync('quizHistory', history.slice(0, 20)) // 最多保存20条
+      console.log('[Quiz] 测试记录已保存')
+    } catch (e) {
+      console.error('[Quiz] 保存测试记录失败:', e)
+    }
   },
 
   // 重新测试
