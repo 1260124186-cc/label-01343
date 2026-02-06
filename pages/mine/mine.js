@@ -365,9 +365,19 @@ Page({
     })
   },
 
-  // 分享按钮点击
-  onShare() {
-    // 触发分享
+  // 未登录时分享按钮点击
+  onShareTap() {
+    wx.showModal({
+      title: '提示',
+      content: '登录后才能分享给好友',
+      confirmText: '去登录',
+      cancelText: '取消',
+      success: (res) => {
+        if (res.confirm) {
+          wx.navigateTo({ url: '/pages/login/login' })
+        }
+      }
+    })
   },
 
   // 登录

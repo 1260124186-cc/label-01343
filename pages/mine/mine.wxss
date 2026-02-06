@@ -1,4 +1,11 @@
 /* pages/mine/mine.wxss */
+
+/* 页面滚动容器 - 解决分享按钮导致页面跳动问题 */
+.page-scroll {
+  height: 100vh;
+  width: 100%;
+}
+
 .container {
   padding: 24rpx;
   padding-bottom: calc(140rpx + env(safe-area-inset-bottom));
@@ -399,7 +406,6 @@
   padding: 32rpx 28rpx;
   border-bottom: 1rpx solid #f5f5f5;
   background: #ffffff;
-  transition: background 0.2s;
 }
 
 .other-item:last-child {
@@ -420,6 +426,31 @@
 
 .other-item.logout .other-left text {
   color: #e74c3c;
+}
+
+/* 分享按钮 - 透明覆盖层方案 */
+.share-item {
+  position: relative;
+}
+
+.share-btn-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  opacity: 0;
+  z-index: 2;
+}
+
+.share-btn-overlay::after {
+  display: none;
 }
 
 .other-left {
@@ -465,12 +496,6 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  animation: fadeIn 0.25s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 .map-content {
@@ -479,13 +504,7 @@
   background: #ffffff;
   border-radius: 28rpx;
   overflow: hidden;
-  animation: modalSlideUp 0.3s ease-out;
   box-shadow: 0 20rpx 60rpx rgba(0, 0, 0, 0.25);
-}
-
-@keyframes modalSlideUp {
-  from { opacity: 0; transform: translateY(40rpx) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .map-header {

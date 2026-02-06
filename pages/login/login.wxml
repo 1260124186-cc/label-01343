@@ -7,47 +7,40 @@
     <view class="logo-subtitle">守护校园安全，远离网络诈骗</view>
   </view>
 
-  <!-- 登录区域 -->
-  <view class="login-section">
-    <view class="login-card">
-      <view class="login-tip">
-        <text class="tip-icon">💡</text>
-        <text>登录后可使用知识测试、查看校园求助等功能</text>
+  <!-- 登录权益展示 -->
+  <view class="benefit-section">
+    <view class="benefit-title">登录后可使用</view>
+    <view class="benefit-list">
+      <view class="benefit-item">
+        <text class="benefit-icon">✏️</text>
+        <text class="benefit-text">反诈知识测试</text>
       </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">📍</text>
+        <text class="benefit-text">校园求助点位</text>
+      </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">🏫</text>
+        <text class="benefit-text">求助渠道</text>
+      </view>
+      <view class="benefit-item">
+        <text class="benefit-icon">📊</text>
+        <text class="benefit-text">记录保存</text>
+      </view>
+    </view>
+  </view>
 
-      <view class="login-btn wechat" bindtap="onWechatLogin">
-        <text class="btn-icon">💬</text>
-        <text>微信快捷登录</text>
-      </view>
+  <!-- 登录按钮区域 -->
+  <view class="login-section">
+    <view class="login-btn wechat" bindtap="onWechatLogin">
+      <text class="btn-icon">💬</text>
+      <text>微信快捷登录</text>
     </view>
   </view>
 
   <!-- 游客入口 -->
   <view class="guest-section">
     <text class="guest-link" bindtap="onGuestMode">暂不登录，以游客身份浏览</text>
-  </view>
-
-  <!-- 功能说明 -->
-  <view class="feature-section">
-    <view class="feature-title">登录后可享受</view>
-    <view class="feature-list">
-      <view class="feature-item">
-        <text class="feature-icon">✏️</text>
-        <text>反诈知识测试</text>
-      </view>
-      <view class="feature-item">
-        <text class="feature-icon">📍</text>
-        <text>查看校园求助点</text>
-      </view>
-      <view class="feature-item">
-        <text class="feature-icon">🏫</text>
-        <text>校园求助渠道</text>
-      </view>
-      <view class="feature-item">
-        <text class="feature-icon">📊</text>
-        <text>测试记录保存</text>
-      </view>
-    </view>
   </view>
 </view>
 

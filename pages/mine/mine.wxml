@@ -1,187 +1,198 @@
 <!--pages/mine/mine.wxml-->
-<view class="container">
-  <!-- 用户信息卡片 -->
-  <view class="user-card">
-    <view class="user-info" bindtap="{{!isLoggedIn ? 'onLogin' : ''}}">
-      <view class="user-avatar {{!isLoggedIn ? 'not-logged' : ''}}">👤</view>
-      <view class="user-detail">
-        <view class="user-name">{{isLoggedIn ? '校园用户' : '未登录'}}</view>
-        <view class="user-slogan">{{isLoggedIn ? '守护校园安全，远离网络诈骗' : '点击登录，开启防诈之旅'}}</view>
+<page-meta page-style="overflow: hidden;"/>
+<scroll-view class="page-scroll" scroll-y="true" enhanced="true" show-scrollbar="false">
+  <view class="container">
+    <!-- 用户信息卡片 -->
+    <view class="user-card">
+      <view class="user-info" bindtap="{{!isLoggedIn ? 'onLogin' : ''}}">
+        <view class="user-avatar {{!isLoggedIn ? 'not-logged' : ''}}">👤</view>
+        <view class="user-detail">
+          <view class="user-name">{{isLoggedIn ? '校园用户' : '未登录'}}</view>
+          <view class="user-slogan">{{isLoggedIn ? '守护校园安全，远离网络诈骗' : '点击登录，开启防诈之旅'}}</view>
+        </view>
+      </view>
+      <view class="user-stats" wx:if="{{isLoggedIn && totalTests > 0}}">
+        <view class="stat-item">
+          <view class="stat-value">{{totalTests}}</view>
+          <view class="stat-label">测试次数</view>
+        </view>
+        <view class="stat-divider"></view>
+        <view class="stat-item">
+          <view class="stat-value">{{avgScore}}</view>
+          <view class="stat-label">平均分</view>
+        </view>
       </view>
     </view>
-    <view class="user-stats" wx:if="{{isLoggedIn && totalTests > 0}}">
-      <view class="stat-item">
-        <view class="stat-value">{{totalTests}}</view>
-        <view class="stat-label">测试次数</view>
-      </view>
-      <view class="stat-divider"></view>
-      <view class="stat-item">
-        <view class="stat-value">{{avgScore}}</view>
-        <view class="stat-label">平均分</view>
-      </view>
-    </view>
-  </view>
 
-  <!-- 紧急求助 -->
-  <view class="section">
-    <view class="section-header">
-      <view class="section-title">
-        <text class="title-icon">🆘</text>
-        <text>紧急求助热线</text>
+    <!-- 紧急求助 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">
+          <text class="title-icon">🆘</text>
+          <text>紧急求助热线</text>
+        </view>
       </view>
-    </view>
-    <view class="help-lines">
-      <view
-        class="help-line-item"
-        wx:for="{{helpLines}}"
-        wx:key="id"
-        bindtap="onCallPhone"
-        data-number="{{item.number}}"
-        data-name="{{item.name}}"
-      >
-        <view class="line-left">
-          <view class="line-icon-wrap" style="background-color: {{item.color}}20;">
-            <text class="line-icon">{{item.emoji}}</text>
+      <view class="help-lines">
+        <view
+          class="help-line-item"
+          wx:for="{{helpLines}}"
+          wx:key="id"
+          bindtap="onCallPhone"
+          data-number="{{item.number}}"
+          data-name="{{item.name}}"
+        >
+          <view class="line-left">
+            <view class="line-icon-wrap" style="background-color: {{item.color}}20;">
+              <text class="line-icon">{{item.emoji}}</text>
+            </view>
+            <view class="line-info">
+              <view class="line-name">{{item.name}}</view>
+              <view class="line-desc">{{item.description}}</view>
+            </view>
           </view>
-          <view class="line-info">
-            <view class="line-name">{{item.name}}</view>
-            <view class="line-desc">{{item.description}}</view>
+          <view class="line-right">
+            <view class="line-number" style="color: {{item.color}};">{{item.number}}</view>
+            <text class="call-icon">📞</text>
           </view>
         </view>
-        <view class="line-right">
-          <view class="line-number" style="color: {{item.color}};">{{item.number}}</view>
-          <text class="call-icon">📞</text>
+      </view>
+    </view>
+
+    <!-- 校园求助 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">
+          <text class="title-icon">🏫</text>
+          <text>校园求助渠道</text>
+        </view>
+        <view class="section-action" bindtap="onShowMapModal">
+          <text>查看位置</text>
+          <text class="action-icon">📍</text>
+        </view>
+      </view>
+      <view class="campus-help">
+        <view
+          class="campus-item"
+          wx:for="{{campusHelp}}"
+          wx:key="id"
+          bindtap="onCampusHelp"
+          data-id="{{item.id}}"
+          data-name="{{item.name}}"
+        >
+          <text class="campus-icon">{{item.emoji}}</text>
+          <view class="campus-info">
+            <view class="campus-name">{{item.name}}</view>
+            <view class="campus-desc">{{item.description}}</view>
+          </view>
+          <text class="campus-arrow">›</text>
         </view>
       </view>
     </view>
-  </view>
 
-  <!-- 校园求助 -->
-  <view class="section">
-    <view class="section-header">
-      <view class="section-title">
-        <text class="title-icon">🏫</text>
-        <text>校园求助渠道</text>
-      </view>
-      <view class="section-action" bindtap="onShowMapModal">
-        <text>查看位置</text>
-        <text class="action-icon">📍</text>
-      </view>
-    </view>
-    <view class="campus-help">
-      <view
-        class="campus-item"
-        wx:for="{{campusHelp}}"
-        wx:key="id"
-        bindtap="onCampusHelp"
-        data-id="{{item.id}}"
-        data-name="{{item.name}}"
-      >
-        <text class="campus-icon">{{item.emoji}}</text>
-        <view class="campus-info">
-          <view class="campus-name">{{item.name}}</view>
-          <view class="campus-desc">{{item.description}}</view>
+    <!-- 实用工具 -->
+    <view class="section">
+      <view class="section-header">
+        <view class="section-title">
+          <text class="title-icon">🔧</text>
+          <text>实用工具</text>
         </view>
-        <text class="campus-arrow">›</text>
+      </view>
+      <view class="tools-grid">
+        <view class="tool-item" bindtap="onDownloadApp">
+          <text class="tool-icon">📱</text>
+          <view class="tool-name">国家反诈中心APP</view>
+          <view class="tool-desc">下载官方反诈APP</view>
+        </view>
+        <view class="tool-item" bindtap="onOpenTencent110">
+          <text class="tool-icon">💬</text>
+          <view class="tool-name">腾讯110小程序</view>
+          <view class="tool-desc">微信内快速举报</view>
+        </view>
+        <view class="tool-item" bindtap="onViewGuide">
+          <text class="tool-icon">📖</text>
+          <view class="tool-name">防骗指南</view>
+          <view class="tool-desc">学习防骗知识</view>
+        </view>
+        <view class="tool-item" bindtap="onStartQuiz">
+          <text class="tool-icon">✏️</text>
+          <view class="tool-name">知识测试</view>
+          <view class="tool-desc">测测防骗能力</view>
+        </view>
       </view>
     </view>
-  </view>
 
-  <!-- 实用工具 -->
-  <view class="section">
-    <view class="section-header">
-      <view class="section-title">
-        <text class="title-icon">🔧</text>
-        <text>实用工具</text>
+    <!-- 重要提醒 -->
+    <view class="reminder-card">
+      <view class="reminder-title">
+        <text class="warning-icon">⚠️</text>
+        <text>重要提醒</text>
+      </view>
+      <view class="reminder-content">
+        <view class="reminder-item">
+          <text class="item-dot">•</text>
+          <text>不轻信陌生来电和信息</text>
+        </view>
+        <view class="reminder-item">
+          <text class="item-dot">•</text>
+          <text>不透露个人信息和验证码</text>
+        </view>
+        <view class="reminder-item">
+          <text class="item-dot">•</text>
+          <text>不向陌生账户转账汇款</text>
+        </view>
+        <view class="reminder-item">
+          <text class="item-dot">•</text>
+          <text>发现被骗立即报警</text>
+        </view>
       </view>
     </view>
-    <view class="tools-grid">
-      <view class="tool-item" bindtap="onDownloadApp">
-        <text class="tool-icon">📱</text>
-        <view class="tool-name">国家反诈中心APP</view>
-        <view class="tool-desc">下载官方反诈APP</view>
-      </view>
-      <view class="tool-item" bindtap="onOpenTencent110">
-        <text class="tool-icon">💬</text>
-        <view class="tool-name">腾讯110小程序</view>
-        <view class="tool-desc">微信内快速举报</view>
-      </view>
-      <view class="tool-item" bindtap="onViewGuide">
-        <text class="tool-icon">📖</text>
-        <view class="tool-name">防骗指南</view>
-        <view class="tool-desc">学习防骗知识</view>
-      </view>
-      <view class="tool-item" bindtap="onStartQuiz">
-        <text class="tool-icon">✏️</text>
-        <view class="tool-name">知识测试</view>
-        <view class="tool-desc">测测防骗能力</view>
-      </view>
-    </view>
-  </view>
 
-  <!-- 重要提醒 -->
-  <view class="reminder-card">
-    <view class="reminder-title">
-      <text class="warning-icon">⚠️</text>
-      <text>重要提醒</text>
+    <!-- 其他功能 -->
+    <view class="other-section">
+      <view class="other-item" bindtap="onAbout">
+        <view class="other-left">
+          <text class="other-icon">ℹ️</text>
+          <text>关于我们</text>
+        </view>
+        <text class="other-arrow">›</text>
+      </view>
+      <view class="other-item share-item" wx:if="{{isLoggedIn}}">
+        <button class="share-btn-overlay" open-type="share" hover-class="none"></button>
+        <view class="other-left">
+          <text class="other-icon">🔗</text>
+          <text>分享给好友</text>
+        </view>
+        <text class="other-arrow">›</text>
+      </view>
+      <view class="other-item" wx:if="{{!isLoggedIn}}" bindtap="onShareTap">
+        <view class="other-left">
+          <text class="other-icon">🔗</text>
+          <text>分享给好友</text>
+        </view>
+        <text class="other-arrow">›</text>
+      </view>
+      <view class="other-item login" wx:if="{{!isLoggedIn}}" bindtap="onLogin">
+        <view class="other-left">
+          <text class="other-icon">🔑</text>
+          <text>登录账号</text>
+        </view>
+        <text class="other-arrow">›</text>
+      </view>
+      <view class="other-item logout" wx:if="{{isLoggedIn}}" bindtap="onLogout">
+        <view class="other-left">
+          <text class="other-icon">🚪</text>
+          <text>退出登录</text>
+        </view>
+        <text class="other-arrow">›</text>
+      </view>
     </view>
-    <view class="reminder-content">
-      <view class="reminder-item">
-        <text class="item-dot">•</text>
-        <text>不轻信陌生来电和信息</text>
-      </view>
-      <view class="reminder-item">
-        <text class="item-dot">•</text>
-        <text>不透露个人信息和验证码</text>
-      </view>
-      <view class="reminder-item">
-        <text class="item-dot">•</text>
-        <text>不向陌生账户转账汇款</text>
-      </view>
-      <view class="reminder-item">
-        <text class="item-dot">•</text>
-        <text>发现被骗立即报警</text>
-      </view>
-    </view>
-  </view>
 
-  <!-- 其他功能 -->
-  <view class="other-section">
-    <view class="other-item" bindtap="onAbout">
-      <view class="other-left">
-        <text class="other-icon">ℹ️</text>
-        <text>关于我们</text>
-      </view>
-      <text class="other-arrow">›</text>
-    </view>
-    <view class="other-item" bindtap="onShare">
-      <view class="other-left">
-        <text class="other-icon">🔗</text>
-        <text>分享给好友</text>
-      </view>
-      <text class="other-arrow">›</text>
-    </view>
-    <view class="other-item login" wx:if="{{!isLoggedIn}}" bindtap="onLogin">
-      <view class="other-left">
-        <text class="other-icon">🔑</text>
-        <text>登录账号</text>
-      </view>
-      <text class="other-arrow">›</text>
-    </view>
-    <view class="other-item logout" wx:if="{{isLoggedIn}}" bindtap="onLogout">
-      <view class="other-left">
-        <text class="other-icon">🚪</text>
-        <text>退出登录</text>
-      </view>
-      <text class="other-arrow">›</text>
+    <!-- 底部 -->
+    <view class="footer">
+      <text>守护校园安全 从我做起</text>
     </view>
   </view>
-
-  <!-- 底部 -->
-  <view class="footer">
-    <text>守护校园安全 从我做起</text>
-  </view>
-</view>
+</scroll-view>
 
 <!-- 地图弹窗 -->
 <view class="map-modal" wx:if="{{showMap}}" bindtap="onCloseMap">
